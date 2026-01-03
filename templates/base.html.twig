@@ -1,0 +1,456 @@
+<!DOCTYPE html> 
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Lost & Found • Reunite with what matters{% endblock %}</title>
+
+        {# Use static favicon.ico served from /public instead of data: URL #}
+        <link rel="icon" href="{{ asset('favicon.ico') }}" />
+
+        {% block stylesheets %}
+            <!-- Google Fonts -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            
+            <!-- Bootstrap 5 CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            
+            <!-- Custom CSS -->
+            <style>
+                :root {
+                    --primary: #3a86ff;
+                    --secondary: #8338ec;
+                    --light: #f8f9fa;
+                    --dark: #212529;
+                    --success: #06d6a0;
+                    --danger: #ef476f;
+                }
+                
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                body {
+                    font-family: 'Inter', sans-serif;
+                    line-height: 1.6;
+                    color: var(--dark);
+                    background-color: #ffffff;
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                }
+                
+                /* Modern Navigation */
+                .navbar {
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(10px);
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                    padding: 1rem 0;
+                    transition: all 0.3s ease;
+                }
+                
+                .navbar-brand {
+                    font-weight: 700;
+                    font-size: 1.5rem;
+                    color: var(--dark);
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .navbar-brand .logo-icon {
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1rem;
+                }
+                
+                .nav-link {
+                    font-weight: 500;
+                    color: #666;
+                    padding: 0.5rem 1rem;
+                    border-radius: 8px;
+                    transition: all 0.2s ease;
+                }
+                
+                .nav-link:hover, .nav-link.active {
+                    color: var(--primary);
+                    background: rgba(58, 134, 255, 0.1);
+                }
+                
+                /* Modern Buttons */
+                .btn {
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                    border: none;
+                }
+                
+                .btn-primary {
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    color: white;
+                }
+                
+                .btn-primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
+                }
+                
+                .btn-outline {
+                    border: 2px solid var(--primary);
+                    color: var(--primary);
+                    background: transparent;
+                }
+                
+                .btn-outline:hover {
+                    background: var(--primary);
+                    color: white;
+                }
+                
+                /* Main Content */
+                main {
+                    flex: 1;
+                }
+                
+                /* Modern Cards */
+                .card {
+                    border: none;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                    background: white;
+                }
+                
+                .card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+                }
+                
+                .card-img-top {
+                    height: 200px;
+                    object-fit: cover;
+                }
+                
+                /* Modern Footer */
+                footer {
+                    background: var(--dark);
+                    color: white;
+                    margin-top: auto;
+                }
+                
+                .footer-link {
+                    color: #adb5bd;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .footer-link:hover {
+                    color: white;
+                }
+                
+                /* Utility Classes */
+                .rounded-lg {
+                    border-radius: 16px;
+                }
+                
+                .shadow-sm {
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
+                
+                .shadow-md {
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+                }
+                
+                .shadow-lg {
+                    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                }
+                
+                /* Gradient Text */
+                .gradient-text {
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                
+                /* Section Spacing */
+                section {
+                    padding: 5rem 0;
+                }
+                
+                .section-title {
+                    font-weight: 700;
+                    margin-bottom: 3rem;
+                    position: relative;
+                }
+                
+                .section-title:after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    bottom: -10px;
+                    width: 50px;
+                    height: 4px;
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    border-radius: 2px;
+                }
+                
+                /* Badges */
+                .badge {
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-weight: 500;
+                }
+                
+                .badge-lost {
+                    background: rgba(239, 71, 111, 0.1);
+                    color: var(--danger);
+                }
+                
+                .badge-found {
+                    background: rgba(6, 214, 160, 0.1);
+                    color: var(--success);
+                }
+            </style>
+        {% endblock %}
+    </head>
+    
+    <body>
+        <!-- Modern Navigation -->
+        {% set currentRoute = app.request.attributes.get('_route') %}
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('app_home') }}">
+                    <span class="logo-icon">🔍</span>
+                    Lost & Found
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto me-4">
+                        <li class="nav-item">
+                            <a class="nav-link {{ currentRoute == 'app_home' ? 'active' : '' }}"
+                            href="{{ path('app_home') }}">
+                                Home
+                            </a>
+                        </li>
+
+                        {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link {{ currentRoute == 'app_dashboard' ? 'active' : '' }}"
+                                href="{{ path('app_dashboard') }}">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ currentRoute == 'app_profile' ? 'active' : '' }}"
+                                href="{{ path('app_profile') }}">
+                                    Profile
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                            href="{{ path('app_home') }}#how-it-works">
+                                About
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact-section">
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex gap-2">
+                        {% if app.user %}
+                            <a class="btn btn-outline" href="{{ path('app_logout') }}">
+                                Logout
+                            </a>
+                        {% else %}
+                            <a class="btn btn-outline" href="{{ path('app_login') }}">
+                                Sign In
+                            </a>
+                            <a class="btn btn-primary" href="{{ path('app_register') }}">
+                                Get Started
+                            </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="pt-5">
+            {% block body %}{% endblock %}
+        </main>
+
+        <!-- Modern Footer -->
+        <footer id="contact-section" class="pt-5 pb-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a class="navbar-brand mb-3 d-inline-flex align-items-center" href="#">
+                            <span class="logo-icon me-2">🔍</span>
+                            <span class="text-white">Lost & Found</span>
+                        </a>
+                        <p class="text-white mb-4">
+                            A modern platform helping communities reunite with lost belongings through technology and compassion.
+                        </p>
+                        <div class="d-flex gap-3">
+                            <a href="javascript:void(0)" class="text-white footer-link"><i class="fab fa-twitter"></i></a>
+                            <a href="javascript:void(0)" class="text-white footer-link"><i class="fab fa-facebook"></i></a>
+                            <a href="javascript:void(0)" class="text-white footer-link"><i class="fab fa-instagram"></i></a>
+                            <a href="javascript:void(0)" class="text-white footer-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3">Platform</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="{{ path('app_home') }}" class="footer-link">Home</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ path('app_home') }}#recent-listings" class="footer-link">Lost Items</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ path('app_home') }}#recently-found" class="footer-link">Found Items</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ path('app_home') }}#how-it-works" class="footer-link">About</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3">Support</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="javascript:void(0)" class="footer-link">Contact Us</a></li>
+                            <li class="mb-2"><a href="javascript:void(0)" class="footer-link">FAQ</a></li>
+                            <li class="mb-2"><a href="javascript:void(0)" class="footer-link">Privacy Policy</a></li>
+                            <li class="mb-2"><a href="javascript:void(0)" class="footer-link">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-4 mb-4">
+                        <h6 class="fw-bold mb-3">Stay Updated</h6>
+                        <p class="text-white mb-3">Subscribe to our newsletter for updates.</p>
+                        <form class="d-flex" onsubmit="return false;">
+                            <input type="email" class="form-control me-2" placeholder="Your email" style="border-radius: 8px;">
+                            <button type="button" class="btn btn-primary" style="border-radius: 8px;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+                
+                <hr class="bg-secondary my-4">
+                
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-white mb-0">&copy; {{ "now"|date("Y") }} Lost & Found. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p class="text-white mb-0">Made with ❤️ for communities everywhere</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+            {% block javascripts %}
+        <!-- Bootstrap + Font Awesome -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+        <script>
+            // Navbar shadow
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (!navbar) return;
+
+                navbar.style.boxShadow = window.scrollY > 50
+                    ? '0 4px 12px rgba(0, 0, 0, 0.1)'
+                    : 'none';
+            });
+
+            // Fill item details modal from data-* attributes on the clicked button
+            document.addEventListener('DOMContentLoaded', function () {
+                const modalEl = document.getElementById('itemDetailsModal');
+                if (!modalEl) return; // no modal on this page
+
+                modalEl.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    if (!button) return;
+
+                    const data = button.dataset;
+
+                    const titleEl      = modalEl.querySelector('.modal-title');
+                    const descEl       = document.getElementById('modalItemDescription');
+                    const locEl        = document.getElementById('modalItemLocation');
+                    const dateEl       = document.getElementById('modalItemDate');
+                    const typeBadgeEl  = document.getElementById('modalItemTypeBadge');
+                    const statusBadgeEl= document.getElementById('modalItemStatusBadge');
+                    const catEl        = document.getElementById('modalItemCategory');
+                    const phoneEl      = document.getElementById('modalItemPhone');
+                    const emailEl      = document.getElementById('modalItemEmail');
+                    const imgEl        = document.getElementById('modalItemImage');
+
+                    if (titleEl)  titleEl.textContent = data.itemTitle || 'Item details';
+                    if (descEl)   descEl.textContent  = data.itemDescription || '';
+                    if (locEl)    locEl.textContent   = data.itemLocation || '';
+                    if (dateEl)   dateEl.textContent  = data.itemDate || '';
+                    if (catEl)    catEl.textContent   = data.itemCategory
+                        ? 'Category: ' + data.itemCategory
+                        : '';
+
+                    if (phoneEl)  phoneEl.textContent = data.itemPhone || 'No phone provided';
+                    if (emailEl)  emailEl.textContent = data.itemEmail || '';
+
+                    if (typeBadgeEl) {
+                        const type = data.itemType === 'found' ? 'Found' : 'Lost';
+                        typeBadgeEl.textContent = type;
+                        typeBadgeEl.className = 'badge ' + (type === 'Found' ? 'badge-found' : 'badge-lost');
+                    }
+
+                    if (statusBadgeEl) {
+                        const status = data.itemStatus || 'active';
+                        const pretty = status.charAt(0).toUpperCase() + status.slice(1);
+                        statusBadgeEl.textContent = pretty;
+                    }
+
+                    if (imgEl) {
+                        if (data.itemImage) {
+                            imgEl.src = data.itemImage;
+                            imgEl.classList.remove('d-none');
+                        } else {
+                            imgEl.src = '';
+                            imgEl.classList.add('d-none');
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+
+    </body>
+</html>

@@ -1,0 +1,4 @@
+<IfModule mod_php.c>
+    php_value extension_dir "C:\xampp\php\ext"
+    php_value include_path ".;C:\xampp\php\pear"
+</IfModule>

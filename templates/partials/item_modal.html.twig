@@ -1,0 +1,57 @@
+{# templates/partials/item_modal.html.twig #}
+
+<div class="modal fade" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemDetailsModalLabel">Item details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <div class="border rounded-lg overflow-hidden mb-3">
+                            <img src="" alt="" class="img-fluid" id="modalItemImage">
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <p class="mb-1">
+                            <span class="badge" id="modalItemTypeBadge">Type</span>
+                            <span class="badge bg-secondary ms-2" id="modalItemStatusBadge">Status</span>
+                        </p>
+
+                        <p class="mb-2 text-muted" id="modalItemCategory"></p>
+
+                        <p class="mb-2" id="modalItemDescription"></p>
+
+                        <p class="mb-1">
+                            <i class="fas fa-map-marker-alt me-1"></i>
+                            <span id="modalItemLocation"></span>
+                        </p>
+
+                        <p class="mb-3">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            <span id="modalItemDate"></span>
+                        </p>
+
+                        <h6 class="fw-bold mb-2">Contact</h6>
+                        <p class="mb-1">
+                            <i class="fas fa-phone me-1"></i>
+                            <span id="modalItemPhone"></span>
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-envelope me-1"></i>
+                            <span id="modalItemEmail"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

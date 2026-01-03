@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Item • Lost & Found{% endblock %}
+
+{% block body %}
+<section class="py-5" style="margin-top: 4rem;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h1 class="h3 fw-bold mb-3 gradient-text text-center">
+                            Edit Item
+                        </h1>
+                        <p class="text-muted text-center mb-4">
+                            Update the details of your item.
+                        </p>
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success py-2">{{ message }}</div>
+                        {% endfor %}
+
+                        {% if errors is not empty %}
+                            <div class="alert alert-danger py-2">
+                                <ul class="mb-0">
+                                    {% for e in errors %}
+                                        <li>{{ e }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <form method="post" enctype="multipart/form-data" novalidate>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title *</label>
+                                <input type="text" id="title" name="title" class="form-control"
+                                       required value="{{ item.title }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description *</label>
+                                <textarea id="description" name="description" rows="4"
+                                          class="form-control" required>{{ item.description }}</textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select id="category" name="category" class="form-select">
+                                    <option value="" {{ item.category is empty ? 'selected' : '' }}>Select a category (optional)</option>
+                                    <option value="Electronics" {{ item.category == 'Electronics' ? 'selected' : '' }}>Electronics</option>
+                                    <option value="Documents" {{ item.category == 'Documents' ? 'selected' : '' }}>Documents</option>
+                                    <option value="Clothing" {{ item.category == 'Clothing' ? 'selected' : '' }}>Clothing</option>
+                                    <option value="Accessories" {{ item.category == 'Accessories' ? 'selected' : '' }}>Accessories</option>
+                                    <option value="Bags" {{ item.category == 'Bags' ? 'selected' : '' }}>Bags</option>
+                                    <option value="Pets" {{ item.category == 'Pets' ? 'selected' : '' }}>Pets</option>
+                                    <option value="Other" {{ item.category == 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">Location *</label>
+                                    <input type="text" id="location" name="location" class="form-control"
+                                           required value="{{ item.location }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" id="date" name="date" class="form-control"
+                                           value="{{ item.date ? item.date|date('Y-m-d') : '' }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Photo (optional)</label>
+                                {% if item.image %}
+                                    <div class="mb-2">
+                                        <img src="{{ asset('uploads/' ~ item.image) }}"
+                                             alt="{{ item.title }}"
+                                             class="img-fluid rounded-3"
+                                             style="max-height: 160px; object-fit: cover;">
+                                    </div>
+                                {% endif %}
+                                <input type="file" name="image" class="form-control" accept="image/*">
+                                <small class="text-muted">Upload a new photo to replace the current one (optional).</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="contact_phone" class="form-label">Contact phone</label>
+                                    <input
+                                        type="text"
+                                        id="contact_phone"
+                                        name="contact_phone"
+                                        class="form-control"
+                                        value="{{ item.contactPhone ?: (app.user ? app.user.phone : '') }}"
+                                    >
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="contact_email" class="form-label">Contact email *</label>
+                                    <input
+                                        type="email"
+                                        id="contact_email"
+                                        name="contact_email"
+                                        class="form-control"
+                                        required
+                                        value="{{ item.contactEmail ?: (app.user ? app.user.email : '') }}"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <a href="{{ path('app_profile') }}" class="btn btn-outline">
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Save changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

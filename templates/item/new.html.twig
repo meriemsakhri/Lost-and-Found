@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Report Lost Item • Lost & Found{% endblock %}
+
+{% block body %}
+<section class="py-5" style="margin-top: 4rem;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h1 class="h3 fw-bold mb-3 gradient-text text-center">
+                            Report a Lost Item
+                        </h1>
+                        <p class="text-muted text-center mb-4">
+                            Provide as much detail as possible to help others recognize your item.
+                        </p>
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success py-2">{{ message }}</div>
+                        {% endfor %}
+
+                        {% if errors is not empty %}
+                            <div class="alert alert-danger py-2">
+                                <ul class="mb-0">
+                                    {% for e in errors %}
+                                        <li>{{ e }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <form method="post" enctype="multipart/form-data" novalidate>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title *</label>
+                                <input type="text" id="title" name="title" class="form-control" required>
+                                <small class="text-muted">Example: "Black leather wallet" or "Silver iPhone 12".</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description *</label>
+                                <textarea id="description" name="description" rows="4" class="form-control" required></textarea>
+                                <small class="text-muted">Include brand, color, unique marks, etc.</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select id="category" name="category" class="form-select">
+                                    <option value="">Select a category (optional)</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Documents">Documents</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Accessories">Accessories</option>
+                                    <option value="Bags">Bags</option>
+                                    <option value="Pets">Pets</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">Location *</label>
+                                    <input type="text" id="location" name="location" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date lost</label>
+                                    <input type="date" id="date" name="date" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Photo (optional)</label>
+                                <input type="file" name="image" class="form-control" accept="image/*">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="contact_phone" class="form-label">Contact phone</label>
+                                    <input
+                                        type="text"
+                                        id="contact_phone"
+                                        name="contact_phone"
+                                        class="form-control"
+                                        value="{{ app.user ? app.user.phone : '' }}"
+                                    >
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="contact_email" class="form-label">Contact email *</label>
+                                    <input
+                                        type="email"
+                                        id="contact_email"
+                                        name="contact_email"
+                                        class="form-control"
+                                        required
+                                        value="{{ app.user ? app.user.email : '' }}"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <a href="{{ path('app_dashboard') }}" class="btn btn-outline">
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit Lost Item
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

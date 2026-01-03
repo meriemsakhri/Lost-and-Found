@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard • Lost & Found{% endblock %}
+
+{% block body %}
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold mb-1">Community Dashboard</h1>
+                <p class="text-muted mb-0">
+                    Browse all reported lost &amp; found items from the community.
+                </p>
+            </div>
+
+            <a class="btn btn-primary"
+               href="{{ app.user ? path('app_item_new') : path('app_login') }}">
+                + Report Lost Item
+            </a>
+        </div>
+
+        {# 🔍 Search + Filter bar #}
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-6">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search by title, description, or location..."
+                    value="{{ search }}"
+                >
+            </div>
+
+            <div class="col-md-4">
+                <select name="category" class="form-select">
+                    <option value="">All categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat }}"
+                            {{ cat == selectedCategory ? 'selected' : '' }}>
+                            {{ cat }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-outline w-100" type="submit">
+                    <i class="fas fa-search me-1"></i> Filter
+                </button>
+            </div>
+        </form>
+
+        {# Items grid #}
+        <div class="row g-4">
+            {% for item in items %}
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        {% if item.image %}
+                            <img src="{{ asset('uploads/' ~ item.image) }}"
+                                 class="card-img-top"
+                                 alt="{{ item.title }}"
+                                 style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 200px;">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge {{ item.type == 'lost' ? 'badge-lost' : 'badge-found' }}">
+                                    {{ item.type == 'lost' ? 'Lost' : 'Found' }}
+                                </span>
+                                <span class="badge {{ item.status == 'active' ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
+                                    {{ item.status|capitalize }}
+                                </span>
+                            </div>
+
+                            <h5 class="card-title fw-bold">{{ item.title }}</h5>
+
+                            {# description truncated manually (no "u" filter) #}
+                            <p class="card-text text-muted mb-2">
+                                {% if item.description|length > 90 %}
+                                    {{ item.description|slice(0, 90) ~ '...' }}
+                                {% else %}
+                                    {{ item.description }}
+                                {% endif %}
+                            </p>
+
+                            <p class="mb-1">
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ item.location }}
+                                </small>
+                            </p>
+                            <p class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar-alt me-1"></i>{{ item.date|date('M d, Y') }}
+                                </small>
+                            </p>
+
+                            <div class="mt-auto">
+                                <p class="mb-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-phone me-1"></i>{{ item.contactPhone ?: 'No phone provided' }}<br>
+                                        <i class="fas fa-envelope me-1"></i>{{ item.contactEmail }}
+                                    </small>
+                                </p>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline w-100"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#itemDetailsModal"
+                                    data-item-title="{{ item.title }}"
+                                    data-item-description="{{ item.description }}"
+                                    data-item-location="{{ item.location }}"
+                                    data-item-date="{{ item.date|date('M d, Y') }}"
+                                    data-item-type="{{ item.type }}"
+                                    data-item-status="{{ item.status }}"
+                                    data-item-category="{{ item.category }}"
+                                    data-item-phone="{{ item.contactPhone }}"
+                                    data-item-email="{{ item.contactEmail }}"
+                                    data-item-image="{{ item.image ? asset('uploads/' ~ item.image) : '' }}"
+                                >
+                                    View details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-light border text-center py-4">
+                        <i class="fas fa-inbox fa-2x text-muted mb-3"></i>
+                        <h5 class="text-muted mb-1">No items match your filters</h5>
+                        <p class="mb-0">Try clearing the search or choosing another category.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# Reuse the same modal partial we used on the home page (if you have it) #}
+{% include 'partials/item_modal.html.twig' %}
+
+{% endblock %}
