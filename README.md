@@ -1,63 +1,128 @@
-# 🔍 Lost & Found – Symfony Web Application
+# 🧭 Lost & Found – Symfony Web Application
 
-A modern **Lost & Found platform** built with **Symfony** that helps people report, search, and recover lost items in a simple and secure way.
-
-This project was developed as an academic project using Symfony’s MVC architecture, Doctrine ORM, and Twig templates.
+A community-based web platform built with **Symfony** that helps people report lost items, find belongings, and reconnect with their owners.
 
 ---
 
-## 📌 Features
+## 🚀 Features
 
-### 👤 Authentication
-- User registration
-- User login & logout
-- Access control (only authenticated users can post or manage items)
+- User registration & authentication
+- Dashboard displaying all active lost items
+- Post lost items with images and contact details
+- User profile with personal listings
+- Mark items as **returned** or **reopen** them
+- Edit or delete own posts
+- Search and filter items by keyword and category
+- Responsive modern UI using Bootstrap
+- Secure access control (users can manage only their own items)
 
-### 📦 Item Management
-- Post a lost item (with image, category, location, contact info)
-- Edit or delete your own items
-- Mark an item as **Returned**
-- Re-open a returned item (back to Lost)
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** PHP 8+, Symfony 6
+- **Frontend:** Twig, Bootstrap 5
+- **Database:** SQLite (Doctrine ORM)
+- **Authentication:** Symfony Security
+- **Version Control:** Git & GitHub
+
+---
+
+## 🧱 Architecture
+
+This project follows the **Symfony MVC architecture**:
+
+- **Entities:** Define database tables (User, Item)
+- **Repositories:** Handle database queries
+- **Controllers:** Business logic and routing
+- **Templates:** UI rendering with Twig
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](screenshots/home.png)
 
 ### 📊 Dashboard
-- View all active lost items from the community
-- Search items by keyword
-- Filter items by category
+![Dashboard](screenshots/dashboard.png)
 
 ### 👤 Profile Page
-- View personal information
-- View **your own items**
-  - Lost & active items
-  - Returned (found) items
-- Manage your items from one place
-
-### 🏠 Homepage
-- Recent lost & found items
-- Statistics (items reported / lost / found)
-- Item details shown via modal
+![Profile](screenshots/profile.png)
 
 ---
 
-## 🛠 Tech Stack
+## ⚙️ Installation & Setup
 
-| Layer | Technology |
-|-----|-----------|
-| Backend | **Symfony 6** |
-| Language | **PHP 8** |
-| Database | **SQLite** (Doctrine ORM) |
-| Frontend | **Twig**, Bootstrap 5 |
-| Authentication | Symfony Security |
-| ORM | Doctrine |
-| Version Control | Git & GitHub |
+### 🔧 Requirements
+
+Make sure you have the following installed:
+
+- PHP **8.0 or higher**
+- Composer
+- Git
+- Symfony CLI *(optional but recommended)*
 
 ---
 
-## 🧱 Project Architecture (MVC)
+### 1️⃣ Clone the repository
 
-This project follows the **classic Symfony MVC pattern**:
+```bash
+git clone https://github.com/meriemsakhri/lost-and-found-symfony.git
+cd lost-and-found-symfony
+```
+### 2️⃣ Install dependencies
 
-- **Entities** → Database models (`User`, `Item`)
-- **Repositories** → Database queries
-- **Controllers** → Business logic & routing
-- **Templates** → UI using Twig
+```bash
+composer install
+```
+### 3️⃣ Environment configuration
 
+```bash
+cp .env .env.local
+```
+ℹ️ This project uses SQLite, so no database credentials are required.
+
+### 4️⃣ Create the database
+
+```bash
+php bin/console doctrine:database:create
+```
+### 5️⃣ Create database tables (run migrations)
+```bash
+php bin/console doctrine:migrations:migrate
+```
+### 6️⃣ Start the server
+```bash
+symfony server:start
+```
+## 🔐 Access Rules
+
+- **Home page:** Public
+- **Dashboard:** Logged-in users only
+- **Post item:** Logged-in users only
+- **Profile page:** Logged-in users only
+- Users can only **edit, delete, or manage their own items**
+
+---
+
+## 👤 User Workflow
+
+1. Register an account
+2. Log in
+3. Access the dashboard
+4. Post a lost item
+5. Manage items from the profile page
+6. Mark items as returned or reopen them
+
+---
+
+## 🎓 Academic Context
+
+This project demonstrates:
+
+- Symfony MVC architecture
+- Secure authentication and authorization
+- CRUD operations using Doctrine ORM
+- Real-world web application workflow
+- Clean separation of backend logic and frontend views
